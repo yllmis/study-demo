@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/vote_demo/app/modle"
+	"github.com/vote_demo/app/tools"
 )
 
 // User 用户结构体
@@ -20,20 +21,26 @@ func GetLogin(ctx *gin.Context) {
 func DoLogin(ctx *gin.Context) {
 	var user User
 	if err := ctx.ShouldBind(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"message": "参数绑定失败"})
+		ctx.JSON(http.StatusBadRequest, tools.Ecode{
+			Message: err.Error(), //有风险
+		})
 	}
 
 	// 查询数据库验证用户
 	ret := modle.GetUser(user.Name)
 	if ret.Id < 1 || ret.Password != user.Password {
-		ctx.JSON(http.StatusBadGateway, gin.H{"message": "用户名或密码错误"})
+		ctx.JSON(http.StatusBadGateway, tools.Ecode{
+			Message: "用户名或密码错误",
+		})
 		return
 	}
 
 	// 登录成功
 	ctx.SetCookie("name", user.Name, 3600, "/", "", true, false)
 
-	ctx.JSON(http.StatusOK, ret)
+	ctx.JSON(http.StatusOK, tools.Ecode{
+		Message: "登录成功",
+	})
 }
 
 func Index(ctx *gin.Context) {
