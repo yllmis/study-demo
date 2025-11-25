@@ -16,7 +16,7 @@ func NewRouter() {
 	r.LoadHTMLGlob("app/view/*")
 	// 路径操作
 	index := r.Group("")
-	index.Use(checkUser)
+	// index.Use(checkUser)
 	index.GET("/index", logic.Index)
 	index.GET("/vote", logic.GetVoteInfo)
 	index.POST("/vote", logic.DoVote)
