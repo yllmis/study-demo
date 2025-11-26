@@ -42,7 +42,7 @@ func checkUser(ctx *gin.Context) {
 		id = v.(int64)
 	}
 	if name == "" || id == 0 {
-		ctx.JSON(http.StatusOK, tools.Ecode{
+		ctx.JSON(http.StatusOK, tools.ECode{
 			Code:    401,
 			Message: "未登录或登录已过期，请重新登录",
 		})

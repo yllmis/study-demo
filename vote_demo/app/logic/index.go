@@ -36,7 +36,7 @@ func DoVote(ctx *gin.Context) {
 	}
 
 	model.DoVote(userId, voteId, opt)
-	ctx.JSON(http.StatusOK, tools.Ecode{
+	ctx.JSON(http.StatusOK, tools.ECode{
 		Message: "投票完成",
 	})
 }

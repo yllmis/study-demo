@@ -21,7 +21,7 @@ func GetLogin(ctx *gin.Context) {
 func DoLogin(ctx *gin.Context) {
 	var user User
 	if err := ctx.ShouldBind(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, tools.Ecode{
+		ctx.JSON(http.StatusBadRequest, tools.ECode{
 			Message: err.Error(), //有风险
 		})
 	}
@@ -29,9 +29,7 @@ func DoLogin(ctx *gin.Context) {
 	// 查询数据库验证用户
 	ret := model.GetUser(user.Name)
 	if ret.Id < 1 || ret.Password != user.Password {
-		ctx.JSON(http.StatusBadGateway, tools.Ecode{
-			Message: "用户名或密码错误",
-		})
+		ctx.JSON(http.StatusBadGateway, tools.UserErr)
 		return
 	}
 
@@ -41,7 +39,7 @@ func DoLogin(ctx *gin.Context) {
 
 	_ = model.SetSession(ctx, ret.Name, ret.Id)
 
-	ctx.JSON(http.StatusOK, tools.Ecode{
+	ctx.JSON(http.StatusOK, tools.ECode{
 		Message: "登录成功",
 	})
 }
