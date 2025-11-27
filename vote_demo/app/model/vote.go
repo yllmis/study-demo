@@ -90,3 +90,55 @@ func DoVote2(userId int64, voteId int64, optIds []int64) bool {
 
 	return true
 }
+
+func AddVote(vote Vote, opt []VoteOpt) error {
+	err := Conn.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&vote).Error; err != nil {
+			return err
+		}
+		for _, voteOpt := range opt {
+			voteOpt.VoteId = vote.Id
+			if err := tx.Create(&voteOpt).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return err
+}
+
+func UpdateVote(vote Vote, opt []VoteOpt) error {
+	err := Conn.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Save(&vote).Error; err != nil {
+			return err
+		}
+		for _, voteOpt := range opt {
+
+			if err := tx.Save(&voteOpt).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return err
+}
+
+func DelVote(id int64) bool {
+	if err := Conn.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Delete(&Vote{}, id).Error; err != nil {
+			return err
+		}
+		// 找到投票选项和投票选项和user相关表的记录，根据vote_id删除
+		if err := tx.Where("vote_id = ?", id).Delete(&VoteOpt{}).Error; err != nil {
+			return err
+		}
+		if err := tx.Where("vote_id = ?", id).Delete(&VoteOptUser{}).Error; err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		fmt.Printf("删除投票失败, err:%s\n", err.Error())
+		return false
+	}
+	return true
+}
