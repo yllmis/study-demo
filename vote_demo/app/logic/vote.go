@@ -41,7 +41,7 @@ func AddVote(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, tools.OK)
-	return
+
 }
 
 func UpdateVote(ctx *gin.Context) {
@@ -75,7 +75,7 @@ func UpdateVote(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, tools.OK)
-	return
+
 }
 
 // 获取选项id，删除投票

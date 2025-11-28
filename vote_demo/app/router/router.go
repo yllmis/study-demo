@@ -18,7 +18,7 @@ func NewRouter() {
 
 	{
 		index := r.Group("")
-		// index.Use(checkUser)
+		index.Use(checkUser)
 		index.GET("/index", logic.Index)
 		index.GET("/votes", logic.GetVotes)
 		index.GET("/vote", logic.GetVoteInfo)
@@ -27,6 +27,9 @@ func NewRouter() {
 		index.POST("/vote/add", logic.AddVote)
 		index.GET("/vote/update", logic.UpdateVote)
 		index.POST("/vote/del", logic.DelVote)
+
+		index.GET("/result", logic.ResultInfo)
+		index.GET("/result/info", logic.GetResultInfo)
 	}
 	r.GET("/", logic.Index)
 	{

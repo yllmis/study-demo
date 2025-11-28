@@ -49,3 +49,32 @@ func DoVote(ctx *gin.Context) {
 		Message: "投票完成",
 	})
 }
+
+func ResultInfo(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "result.tmpl", nil)
+}
+
+func GetResultInfo(ctx *gin.Context) {
+	var id int64
+	idStr := ctx.Query("id")
+	id, _ = strconv.ParseInt(idStr, 10, 64)
+	// 获取投票信息，组装结果数据
+	ret := model.GetVote(id)
+	data := model.ResultData{
+		Title: ret.Vote.Title,
+	}
+
+	for _, v := range ret.Opt {
+		data.Count = data.Count + v.Count
+		tmp := model.ResultVoteOpt{
+			Name:  v.Name,
+			Count: v.Count,
+		}
+		data.Opt = append(data.Opt, &tmp)
+	}
+
+	ctx.JSON(http.StatusOK, tools.ECode{ // 网页中按F12找到网络->Fetch->选中对应的接口->响应
+		Data: data,
+	})
+
+}
