@@ -11,3 +11,11 @@ func GetUser(name string) *User {
 	}
 	return &ret
 }
+
+func CreateUser(user *User) error {
+	if err := Conn.Create(user).Error; err != nil {
+		fmt.Printf("err:%s", err.Error())
+		return err
+	}
+	return nil
+}

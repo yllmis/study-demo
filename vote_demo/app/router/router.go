@@ -39,6 +39,8 @@ func NewRouter() {
 		// 处理登录请求
 		r.POST("/login", logic.DoLogin)
 		r.GET("/logout", logic.Logout)
+
+		r.POST("user/create", logic.CreateUser)
 	}
 	// 启动服务
 	r.Run(":9999")
