@@ -36,9 +36,10 @@ func DoVote(userId int64, voteId int64, optIds []int64) bool {
 	tx := Conn.Begin() // 开启事务
 	// 记录用户投票行为
 	var ret Vote
-	if err := tx.Table("vote").Where("id = ?", userId).First(&ret).Error; err != nil {
+	if err := tx.Table("vote").Where("id = ?", voteId).First(&ret).Error; err != nil {
 		fmt.Printf("查询失败, err:%s\n", err.Error())
 		tx.Rollback()
+		return false
 	}
 
 	// 更新选项投票数
@@ -46,6 +47,7 @@ func DoVote(userId int64, voteId int64, optIds []int64) bool {
 		if err := Conn.Table("vote_opt").Where("id = ?", value).UpdateColumn("count", gorm.Expr("count + ?", 1)).Error; err != nil {
 			fmt.Printf("更新选项投票数失败, err:%s\n", err.Error())
 			tx.Rollback()
+			return false
 		}
 		user := VoteOptUser{
 			UserId:     userId,

@@ -16,8 +16,10 @@ import (
 
 // User 用户结构体
 type User struct {
-	Name     string `json:"name" form:"name"`         // 注意这里的 tag 要和表单中input的 name 属性对应
-	Password string `json:"password" form:"password"` // 注意，若password首字母小写，则无法绑定到，因为反射只能访问导出字段
+	Name         string `json:"name" form:"name"`                   // 注意这里的 tag 要和表单中input的 name 属性对应
+	Password     string `json:"password" form:"password"`           // 注意，若password首字母小写，则无法绑定到，因为反射只能访问导出字段
+	CaptchaId    string `json:"captcha_id" form:"captcha_id"`       // 新增：验证码ID
+	CaptchaValue string `json:"captcha_value" form:"captcha_value"` // 新增：用户输入的验证码
 }
 
 func GetLogin(ctx *gin.Context) {
@@ -30,6 +32,18 @@ func DoLogin(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, tools.ECode{
 			Message: err.Error(), //有风险
 		})
+	}
+
+	// 验证验证码
+	if !tools.CaptchaVerify(tools.CaptchaData{
+		CaptchaId: user.CaptchaId,
+		Data:      user.CaptchaValue,
+	}) {
+		ctx.JSON(http.StatusOK, tools.ECode{
+			Code:    10008,
+			Message: "验证码错误",
+		})
+		return
 	}
 
 	// 查询数据库验证用户
