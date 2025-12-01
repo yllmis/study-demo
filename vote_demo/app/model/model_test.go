@@ -92,3 +92,11 @@ func TestUpdateVote(t *testing.T) {
 	fmt.Printf("ret: %+v", r)
 	Close()
 }
+
+func TestGetUserV1(t *testing.T) {
+	NewMysql()
+
+	r := GetUserV1("admin")
+	fmt.Printf("ret: %+v", r)
+	Close()
+}
