@@ -1,9 +1,12 @@
 package logic
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vote_demo/app/model"
@@ -105,4 +108,55 @@ func ResultVote(ctx *gin.Context) {
 		Data: data,
 	})
 
+}
+
+func Checkxyz(ctx *gin.Context) bool {
+	// 获取ip 和 ua（user-agent）
+	ip := ctx.ClientIP()
+	ua := ctx.GetHeader("User-Agent")
+	fmt.Println("ip:", ip, "ua:", ua)
+
+	hash := md5.New()
+	hash.Write([]byte(ip + ua))
+	hashBytes := hash.Sum(nil) //
+	hashString := hex.EncodeToString(hashBytes)
+
+	flag, _ := model.Rdb.Get(ctx, "ban-"+hashString).Bool()
+	if flag {
+		return false
+	}
+
+	i, _ := model.Rdb.Get(ctx, "xyz-"+hashString).Int()
+	if i > 5 {
+		model.Rdb.SetEx(ctx, "ban-"+hashString, true, 30*time.Second) // （true标记被封禁）禁止访问30秒
+		return false
+	}
+
+	model.Rdb.Incr(ctx, "xyz-"+hashString) // 访问次数+1
+	model.Rdb.Expire(ctx, "xyz-"+hashString, 50*time.Second)
+
+	return true
+}
+
+func GetCaptcha(ctx *gin.Context) {
+	if !Checkxyz(ctx) {
+		ctx.JSON(http.StatusOK, tools.ECode{
+			Code:    10006,
+			Message: "您的访问频率过高，请稍后再试",
+		})
+		return
+	}
+
+	captcha, err := tools.CaptchaGenerate()
+	if err != nil {
+		ctx.JSON(http.StatusOK, tools.ECode{
+			Code:    10005,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, tools.ECode{
+		Data: captcha,
+	})
 }

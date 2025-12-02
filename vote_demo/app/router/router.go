@@ -73,20 +73,7 @@ func NewRouter() {
 
 	//验证码
 	{
-		r.GET("/captcha", func(context *gin.Context) {
-			captcha, err := tools.CaptchaGenerate()
-			if err != nil {
-				context.JSON(http.StatusOK, tools.ECode{
-					Code:    10005,
-					Message: err.Error(),
-				})
-				return
-			}
-
-			context.JSON(http.StatusOK, tools.ECode{
-				Data: captcha,
-			})
-		})
+		r.GET("/captcha", logic.GetCaptcha)
 
 		r.POST("/captcha/verify", func(context *gin.Context) {
 			var param tools.CaptchaData
