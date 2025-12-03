@@ -59,7 +59,7 @@ func DoVote(ctx *gin.Context) {
 	userId, _ := strconv.ParseInt(userIdStr, 10, 64)
 	voteId, _ := strconv.ParseInt(voteIdStr, 10, 64)
 
-	old := model.GetVoteHistory(userId, voteId)
+	old := model.GetVoteHistoryV1(ctx, userId, voteId)
 	if len(old) > 0 {
 		ctx.JSON(http.StatusOK, tools.ECode{
 			Code:    100010,

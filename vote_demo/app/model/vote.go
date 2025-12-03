@@ -204,7 +204,7 @@ func DoVote(userId int64, voteId int64, optIds []int64) bool {
 			VoteOptId:  value,
 			CreateTime: time.Now(),
 		}
-		_ = tx.Create(&user).Error // 记录用户投票选项
+		_ = tx.Create(&user).Error // 记录用户投票选项 记录到vote_opt_user表中
 	}
 	tx.Commit()
 	return true
