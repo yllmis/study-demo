@@ -30,7 +30,7 @@ func NewRouter() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	index := r.Group("")
-	// index.Use(checkUser)
+	index.Use(checkUser)
 
 	{
 

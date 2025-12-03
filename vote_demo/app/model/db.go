@@ -1,8 +1,10 @@
 package model
 
 import (
+	"context"
 	"fmt"
 
+	"github.com/rbcervilla/redisstore/v9"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -37,6 +39,8 @@ func NewRdb() {
 	})
 
 	Rdb = rdb
+	// 初始化session
+	store, _ = redisstore.NewRedisStore(context.TODO(), Rdb)
 	return
 }
 

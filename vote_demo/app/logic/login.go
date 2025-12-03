@@ -85,8 +85,8 @@ func DoLogin(ctx *gin.Context) {
 func Logout(ctx *gin.Context) {
 	_ = model.FlushSession(ctx)
 	// 删除cookie
-	// ctx.SetCookie("name", "", 3600, "/", "", true, false)
-	// ctx.SetCookie("Id", "", 3600, "/", "", true, false)
+	// ctx.SetCookie("name", "", -1, "/", "", true, false)
+	// ctx.SetCookie("Id", "", -1, "/", "", true, false)
 	ctx.Redirect(http.StatusFound, "/login")
 }
 
