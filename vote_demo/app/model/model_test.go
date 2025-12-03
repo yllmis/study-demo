@@ -100,3 +100,14 @@ func TestGetUserV1(t *testing.T) {
 	fmt.Printf("ret: %+v", r)
 	Close()
 }
+
+func TestGetJwt(t *testing.T) {
+	str, _ := GetJwt(1, "admin")
+	fmt.Printf("str: %+v", str)
+}
+
+func TestCheckJwt(t *testing.T) {
+	str := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6MSwiTmFtZSI6ImFkbWluIiwiaXNzIjoi6aaZ6aaZ57yW56iLIiwic3ViIjoi5ZCO5Yuk6YOo56em5biI5YKFIiwiYXVkIjpbIkFuZHJvaWQiLCJJT1MiLCJINSJdLCJleHAiOjE3NjQ3ODE5ODMsIm5iZiI6MTc2NDc3ODM5MywiaWF0IjoxNzY0Nzc4MzgzLCJqdGkiOiJUZXN0LTEifQ.oQVzLm6906t76-dctnkR3kOEmAQEL1TeWpyeeukqYeg"
+	token, _ := CheckJwt(str)
+	fmt.Printf("token: %+v", token)
+}
