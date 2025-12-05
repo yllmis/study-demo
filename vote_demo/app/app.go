@@ -7,6 +7,8 @@ import (
 )
 
 func Strat() {
+	tools.InitConfig()
+
 	model.NewMysql()
 
 	model.NewRdb()

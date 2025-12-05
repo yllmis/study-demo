@@ -1,0 +1,11 @@
+server:
+  port: 9999
+  mode: "debug" # debug, release
+
+mysql:
+  dsn: "root:258369@tcp(10.117.201.209:3306)/vote?charset=utf8mb4&parseTime=True&loc=Local"
+
+redis:
+  addr: "127.0.0.1:6379"
+  password: ""
+  db: 0

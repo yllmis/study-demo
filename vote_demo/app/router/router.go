@@ -96,7 +96,11 @@ func NewRouter() {
 	}
 
 	// 启动服务
-	r.Run(":9999")
+	port := tools.GetConfigString("server.port")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run(":" + port)
 }
 
 func checkUser(ctx *gin.Context) {
