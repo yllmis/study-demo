@@ -35,8 +35,15 @@
                     data: {
                         id: $(this).attr("data"),
                     },
+
                     dataType: "json",
                     success: function (data) {
+                        if (data.code === 1003 || data.code === 1001) {
+                            alert(data.message)
+                            window.location.href = "/login"
+                        }
+
+
                         var vote = data.data.Vote
                         var h1 = $("<div></div>")
                         h1.append('<h2>title:' + vote.Title + '</h2>')

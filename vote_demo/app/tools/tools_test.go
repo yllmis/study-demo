@@ -26,3 +26,19 @@ func TestGetUid(t *testing.T) {
 	}()
 
 }
+
+func TestSetJwt(t *testing.T) {
+	token, _ := SetJwt("admin")
+	fmt.Println("token:", token)
+}
+
+func TestParseJwt(t *testing.T) {
+	tokenStr := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoieWxsbWlzIiwiZXhwIjoxNzY0OTUyNzQ3LCJuYmYiOjE3NjQ5NDY3MzcsImlhdCI6MTc2NDk0Njc0N30.-hC9Kx_3UvyyCo9DW7ktzKh8GwuJ2XOIm79NIH67m9g"
+	claims, err := ParseJwt(tokenStr)
+	if err != nil {
+		fmt.Println("err:", err)
+		return
+	}
+	fmt.Println("claims:", claims)
+
+}

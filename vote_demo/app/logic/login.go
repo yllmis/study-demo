@@ -68,8 +68,21 @@ func DoLogin(ctx *gin.Context) {
 
 	_ = model.SetSession(ctx, ret.Name, ret.Id)
 
+	token, err := tools.SetJwt(user.Name)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, tools.ECode{
+			Code:    10009,
+			Message: "生成Token失败",
+		})
+		return
+	}
+
+	ctx.SetCookie("token", token, 3600, "/", "", false, true)
+
 	ctx.JSON(http.StatusOK, tools.ECode{
-		Message: "登录成功",
+		Data: gin.H{
+			"token": token,
+		},
 	})
 	return
 }

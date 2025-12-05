@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/vote_demo/app/logic"
+	"github.com/vote_demo/app/middleware"
 	"github.com/vote_demo/app/model"
 	"github.com/vote_demo/app/tools"
 
@@ -29,8 +30,8 @@ func NewRouter() {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	index := r.Group("")
-	index.Use(checkUser)
+	index := r.Group("").Use(middleware.JWTAuth())
+	// index.Use(checkUser)
 
 	{
 

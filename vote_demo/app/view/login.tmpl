@@ -87,7 +87,7 @@
                 </div>
                 <input type="hidden" id="captcha_id" name="captcha_id">
             </div>
-            <button type="submit" class="submit-btn" id="login_sub">登录</button>
+            <button type="button" class="submit-btn" id="login_sub">登录</button>
 
         </form>
     </main>
@@ -113,7 +113,7 @@
                 loadCaptcha();
             });
             $("#login_sub").on("click", function () {
-                event.preventDefault();
+
                 $.ajax({
                     //请求资源路径
                     url: "/login",
@@ -135,8 +135,12 @@
                         if (data.code !== 0) {
                             alert(data.message)
                         } else {
+                            if (data.data.token) {
+                                localStorage.setItem("token", data.data.token);
+                            }
+
                             alert("已登录")
-                            setTimeout("pageRedirect()", 3000);
+                            setTimeout("pageRedirect()", 6000);
                         }
                     },
                     //请求失败后调用的回调函数
