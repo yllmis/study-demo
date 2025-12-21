@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>登录/注册</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <style>
@@ -63,35 +63,75 @@
         .submit-btn:hover {
             background-color: #0056b3;
         }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
     <main class="login-container">
-        <h2>用户登录</h2>
-        <form action="/login" method="post">
-            <div class="form-group">
-                <label for="name">用户名</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="password">密码</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="captcha_value">验证码</label>
-                <div style="display: flex; align-items: center;">
-                    <input type="text" id="captcha_value" name="captcha_value" required style="flex: 1;">
-                    <img id="captcha_img" src="" alt="点击刷新"
-                        style="cursor: pointer; height: 34px; margin-left: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        <div id="login_box">
+            <h2>用户登录</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">用户名</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
-                <input type="hidden" id="captcha_id" name="captcha_id">
-            </div>
-            <button type="button" class="submit-btn" id="login_sub">登录</button>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="captcha_value">验证码</label>
+                    <div style="display: flex; align-items: center;">
+                        <input type="text" id="captcha_value" name="captcha_value" required style="flex: 1;">
+                        <img id="captcha_img" src="" alt="点击刷新"
+                            style="cursor: pointer; height: 34px; margin-left: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                    <input type="hidden" id="captcha_id" name="captcha_id">
+                </div>
+                <button type="button" class="submit-btn" id="login_sub">登录</button>
+                <button type="button" class="toggle-btn" onclick="toggleBox()">没有账号？去注册</button>
+            </form>
+        </div>
 
-        </form>
+        <div id="register_box" style="display: none;">
+            <h2>用户注册</h2>
+            <form>
+                <div class="form-group">
+                    <label for="reg_name">用户名</label>
+                    <input type="text" id="reg_name" name="name" required placeholder="8-16位字符">
+                </div>
+                <div class="form-group">
+                    <label for="reg_password">密码</label>
+                    <input type="password" id="reg_password" name="password" required placeholder="8-16位，不能全为数字">
+                </div>
+                <div class="form-group">
+                    <label for="reg_password_2">确认密码</label>
+                    <input type="password" id="reg_password_2" name="password_2" required>
+                </div>
+                <button type="button" class="submit-btn" id="reg_sub">注册</button>
+                <button type="button" class="toggle-btn" onclick="toggleBox()">已有账号？去登录</button>
+            </form>
+        </div>
     </main>
     <script>
+        function toggleBox() {
+            $("#login_box").toggle();
+            $("#register_box").toggle();
+        }
+
         function loadCaptcha() {
             $.ajax({
                 url: "/captcha",
@@ -134,18 +174,45 @@
 
                         if (data.code !== 0) {
                             alert(data.message)
+                            loadCaptcha(); // 失败刷新验证码
                         } else {
                             if (data.data.token) {
                                 localStorage.setItem("token", data.data.token);
                             }
 
                             alert("已登录")
-                            setTimeout("pageRedirect()", 6000);
+                            setTimeout("pageRedirect()", 1000);
                         }
                     },
                     //请求失败后调用的回调函数
                     error: function () {
                         alert("登录失败，请重试！");
+                    }
+                });
+            });
+
+            $("#reg_sub").on("click", function () {
+                var data = {
+                    name: $("#reg_name").val(),
+                    password: $("#reg_password").val(),
+                    password_2: $("#reg_password_2").val()
+                };
+                $.ajax({
+                    url: "/user/create",
+                    type: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code !== 0) {
+                            alert(data.message)
+                        } else {
+                            alert("注册成功，请登录");
+                            toggleBox();
+                        }
+                    },
+                    error: function () {
+                        alert("注册失败，请重试！");
                     }
                 });
             });
