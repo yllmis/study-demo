@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+service User {
+  rpc GetUser(GetUserReq) returns (GetUserResp);
+}
+
+// 编译
+// protoc --go-grpc_out=require_unimplemented_servers=false:. --go_out=. ./user.proto
+
+message GetUserReq {
+    // 属性的类型 属性名称 表示福（不可重复）
+    string id = 1;
+}
+
+message GetUserResp {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+}
