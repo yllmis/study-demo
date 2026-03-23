@@ -33,7 +33,7 @@ func main() {
 		log.Fatal("监听端口失败:", err)
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(grpc.ChainUnaryInterceptor(LogInterceptor, ErrorInterceptor))
 
 	user.RegisterUserServer(s, new(UserServer))
 
