@@ -4,11 +4,7 @@ package user;
 
 option go_package = "./user";
 
-service User {
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
-
-  rpc Ping(Request) returns (Response);
-}
+// goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 
 message Request{}
 
@@ -23,3 +19,22 @@ message GetUserResponse {
   string name = 2;
   string phone = 3;
 }
+
+message CreateReq {
+  string id = 1;
+  string name = 2;
+  string phone = 3;
+}
+
+message CreateResp {
+ 
+}
+
+service User {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  rpc Create(CreateReq) returns (CreateResp);
+
+  rpc Ping(Request) returns (Response);
+}
+
