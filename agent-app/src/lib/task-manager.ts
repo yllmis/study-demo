@@ -38,7 +38,7 @@ export interface Task {
     createdAt: Date
 }
 
-type TaskFilter = 
+type TaskFilter = {
     status?: Task["status"]
     priority?: Task["priority"]
 }
