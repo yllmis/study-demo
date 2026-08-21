@@ -44,3 +44,6 @@ next-env.d.ts
 # learning logs
 CONVERSATION_LOG.md
 LEARNING_LOG.md
+
+# trace logs
+/logs/
