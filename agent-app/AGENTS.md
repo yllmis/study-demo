@@ -1,6 +1,7 @@
 # AGENTS.md
 
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
@@ -129,6 +130,7 @@ AI 不应该只有"代写代码"这一个角色。根据场景轮流扮演五种
 ```
 
 **原则：**
+
 - 避免一句"帮我实现 Agent"让 AI 一次生成几千行代码
 - 每次修改控制在：
   - 一个功能

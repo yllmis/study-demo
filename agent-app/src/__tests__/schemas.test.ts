@@ -44,7 +44,7 @@ describe('TaskSchema', () => {
   it('校验失败：priority 为非法值', () => {
     const data = {
       title: '写API文档',
-      priority: 'urgent',  // 不在 low/medium/high 里
+      priority: 'urgent', // 不在 low/medium/high 里
       dueDate: null,
       assignee: null,
       status: 'todo',
@@ -61,7 +61,7 @@ describe('TaskSchema', () => {
     const data = {
       title: '写API文档',
       priority: 'high',
-      dueDate: '明天下午',  // 不是 YYYY-MM-DD
+      dueDate: '明天下午', // 不是 YYYY-MM-DD
       assignee: null,
       status: 'todo',
     }
@@ -80,7 +80,7 @@ describe('TaskSchema', () => {
       dueDate: null,
       assignee: null,
       status: 'todo',
-      extra: '多余字段',  // strict 模式会拒绝
+      extra: '多余字段', // strict 模式会拒绝
     }
     const result = TaskSchema.safeParse(data)
     expect(result.success).toBe(false)
@@ -93,7 +93,7 @@ describe('TaskSchema', () => {
       priority: 'high',
       dueDate: null,
       assignee: null,
-      status: 'completed',  // 不在 todo/in_progress/done 里
+      status: 'completed', // 不在 todo/in_progress/done 里
     }
     const result = TaskSchema.safeParse(data)
     expect(result.success).toBe(false)

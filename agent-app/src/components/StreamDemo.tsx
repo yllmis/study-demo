@@ -27,15 +27,15 @@ export function StreamDemo() {
 
         const text = decoder.decode(value)
         // 解析 SSE 格式：data: {...}\n\n
-        const lines = text.split('\n').filter(line => line.startsWith('data: '))
+        const lines = text.split('\n').filter((line) => line.startsWith('data: '))
 
         for (const line of lines) {
           const data = line.replace('data: ', '')
-          setChunks(prev => [...prev, data])
+          setChunks((prev) => [...prev, data])
         }
       }
     } catch (err) {
-      setChunks(prev => [...prev, `Error: ${err}`])
+      setChunks((prev) => [...prev, `Error: ${err}`])
     } finally {
       setLoading(false)
     }

@@ -18,12 +18,12 @@ export default function ChatPage() {
   const [input, setInput] = useState('')
 
   const {
-    messages,             // 消息列表
-    sendMessage,          // 发送消息
-    status,               // 'submitted' | 'streaming' | 'ready' | 'error'
-    stop,                 // 中断生成
-    error,                // 错误信息
-    regenerate,           // 重试（重新生成最后一条回复）
+    messages, // 消息列表
+    sendMessage, // 发送消息
+    status, // 'submitted' | 'streaming' | 'ready' | 'error'
+    stop, // 中断生成
+    error, // 错误信息
+    regenerate, // 重试（重新生成最后一条回复）
   } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
   })
@@ -55,9 +55,7 @@ export default function ChatPage() {
           <div
             key={msg.id}
             className={`p-3 rounded-lg max-w-[80%] ${
-              msg.role === 'user'
-                ? 'bg-blue-500 text-white ml-auto'
-                : 'bg-gray-200 text-black'
+              msg.role === 'user' ? 'bg-blue-500 text-white ml-auto' : 'bg-gray-200 text-black'
             }`}
           >
             {getTextContent(msg.parts)}

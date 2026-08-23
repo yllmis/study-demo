@@ -31,10 +31,7 @@ async function callAPI(input: string, errorHint?: string): Promise<unknown> {
 }
 
 // 解析 + 重试逻辑
-export async function parseTask(
-  input: string,
-  maxRetries = 2,
-): Promise<ParseResult> {
+export async function parseTask(input: string, maxRetries = 2): Promise<ParseResult> {
   let lastError = ''
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -55,11 +52,8 @@ export async function parseTask(
       }
 
       // 校验失败，记录错误信息用于重试
-      const issues = result.error.issues
-        .map((i) => `${i.path.join('.')}: ${i.message}`)
-        .join('; ')
+      const issues = result.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')
       lastError = issues
-
     } catch (err) {
       const message = err instanceof Error ? err.message : '未知错误'
 

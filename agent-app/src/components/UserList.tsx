@@ -31,7 +31,7 @@ export function UserList() {
       try {
         setLoading(true)
         // 模拟网络延迟
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await new Promise((resolve) => setTimeout(resolve, 500))
 
         const mockUsers: User[] = [
           { id: 1, name: 'Alice', email: 'alice@example.com' },
@@ -47,7 +47,7 @@ export function UserList() {
     }
 
     fetchUsers()
-  }, [])  // 空依赖 → 只执行一次，类似 Go 的 init()
+  }, []) // 空依赖 → 只执行一次，类似 Go 的 init()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p className="text-red-500">{error}</p>
@@ -56,7 +56,7 @@ export function UserList() {
     <div className="border p-4 rounded">
       <h3 className="font-bold mb-2">User List</h3>
       <ul className="space-y-1">
-        {users.map(user => (
+        {users.map((user) => (
           <li key={user.id}>
             {user.name} - {user.email}
           </li>

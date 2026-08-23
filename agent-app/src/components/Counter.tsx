@@ -1,4 +1,4 @@
-'use client'  // ← 关键！标记为 Client Component
+'use client' // ← 关键！标记为 Client Component
 
 // ============================================
 // 第2课：State、事件处理
@@ -21,7 +21,7 @@ export function Counter() {
   // Go: func handleClick() { ... }
   // TS: const handleClick = () => { ... }
   const handleClick = () => {
-    setCount(count + 1)       // 触发重新渲染
+    setCount(count + 1) // 触发重新渲染
     // setCount(prev => prev + 1)  // 函数式更新，更安全
   }
 
@@ -29,13 +29,13 @@ export function Counter() {
     <div className="border p-4 rounded">
       <p>Count: {count}</p>
       <button
-        onClick={handleClick}  // 绑定事件，Go 里没有这种写法
+        onClick={handleClick} // 绑定事件，Go 里没有这种写法
         className="bg-blue-500 text-white px-4 py-2 rounded"
       >
         +1
       </button>
       <button
-        onClick={() => setCount(0)}  // 直接写箭头函数
+        onClick={() => setCount(0)} // 直接写箭头函数
         className="ml-2 bg-gray-500 text-white px-4 py-2 rounded"
       >
         Reset

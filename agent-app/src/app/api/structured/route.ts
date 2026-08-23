@@ -53,7 +53,6 @@ export async function POST(request: Request) {
     })
 
     return NextResponse.json({ task: object })
-
   } catch (err) {
     const message = err instanceof Error ? err.message : '服务端错误'
     return NextResponse.json({ error: message }, { status: 500 })

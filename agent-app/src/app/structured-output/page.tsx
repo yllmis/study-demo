@@ -63,22 +63,38 @@ export default function StructuredOutputPage() {
       {/* 结果展示 */}
       {task && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <h2 className="font-semibold mb-2 text-green-800">
-            解析成功（第 {attempts} 次尝试）
-          </h2>
+          <h2 className="font-semibold mb-2 text-green-800">解析成功（第 {attempts} 次尝试）</h2>
           <div className="space-y-1 text-sm">
-            <p><span className="font-medium">标题：</span>{task.title}</p>
-            <p><span className="font-medium">优先级：</span>
-              <span className={
-                task.priority === 'high' ? 'text-red-600' :
-                task.priority === 'medium' ? 'text-yellow-600' : 'text-green-600'
-              }>
+            <p>
+              <span className="font-medium">标题：</span>
+              {task.title}
+            </p>
+            <p>
+              <span className="font-medium">优先级：</span>
+              <span
+                className={
+                  task.priority === 'high'
+                    ? 'text-red-600'
+                    : task.priority === 'medium'
+                      ? 'text-yellow-600'
+                      : 'text-green-600'
+                }
+              >
                 {task.priority}
               </span>
             </p>
-            <p><span className="font-medium">截止日期：</span>{task.dueDate || '未设置'}</p>
-            <p><span className="font-medium">负责人：</span>{task.assignee || '未设置'}</p>
-            <p><span className="font-medium">状态：</span>{task.status}</p>
+            <p>
+              <span className="font-medium">截止日期：</span>
+              {task.dueDate || '未设置'}
+            </p>
+            <p>
+              <span className="font-medium">负责人：</span>
+              {task.assignee || '未设置'}
+            </p>
+            <p>
+              <span className="font-medium">状态：</span>
+              {task.status}
+            </p>
           </div>
 
           {/* 原始 JSON */}
@@ -94,9 +110,7 @@ export default function StructuredOutputPage() {
       {/* 错误展示 */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h2 className="font-semibold mb-2 text-red-800">
-            解析失败（尝试 {attempts} 次）
-          </h2>
+          <h2 className="font-semibold mb-2 text-red-800">解析失败（尝试 {attempts} 次）</h2>
           <p className="text-sm text-red-600">{error}</p>
         </div>
       )}

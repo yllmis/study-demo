@@ -31,16 +31,10 @@ export async function POST(request: NextRequest) {
   const { name } = body
 
   if (!name) {
-    return NextResponse.json(
-      { error: 'name is required' },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: 'name is required' }, { status: 400 })
   }
 
-  return NextResponse.json(
-    { message: `Created greeting for ${name}` },
-    { status: 201 }
-  )
+  return NextResponse.json({ message: `Created greeting for ${name}` }, { status: 201 })
 }
 
 // 其他 HTTP 方法同理：

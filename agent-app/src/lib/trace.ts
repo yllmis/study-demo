@@ -111,7 +111,9 @@ export function formatTraceForDisplay(trace: Trace): string {
   lines.push(`Start: ${trace.start_time}`)
   lines.push(`End: ${trace.end_time}`)
   lines.push(`Duration: ${trace.total_duration_ms}ms`)
-  lines.push(`Token Usage: ${trace.token_usage.prompt_tokens} prompt + ${trace.token_usage.completion_tokens} completion`)
+  lines.push(
+    `Token Usage: ${trace.token_usage.prompt_tokens} prompt + ${trace.token_usage.completion_tokens} completion`,
+  )
   lines.push('')
 
   for (const turn of trace.turns) {

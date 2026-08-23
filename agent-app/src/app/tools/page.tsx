@@ -52,9 +52,15 @@ export default function ToolsPage() {
       <div className="mb-4 p-4 bg-gray-50 rounded-lg">
         <p className="font-medium mb-2">可用工具：</p>
         <ul className="text-sm space-y-1">
-          <li>• <code>search_logs</code> — 搜索日志（关键词、日志级别）</li>
-          <li>• <code>get_service_status</code> — 查询服务状态</li>
-          <li>• <code>calculate_error_rate</code> — 计算错误率</li>
+          <li>
+            • <code>search_logs</code> — 搜索日志（关键词、日志级别）
+          </li>
+          <li>
+            • <code>get_service_status</code> — 查询服务状态
+          </li>
+          <li>
+            • <code>calculate_error_rate</code> — 计算错误率
+          </li>
         </ul>
       </div>
 
@@ -85,16 +91,17 @@ export default function ToolsPage() {
               msg.role === 'user' ? 'bg-blue-100 ml-12' : 'bg-gray-100 mr-12'
             }`}
           >
-            <p className="text-xs text-gray-500 mb-1">
-              {msg.role === 'user' ? '你' : 'AI'}
-            </p>
+            <p className="text-xs text-gray-500 mb-1">{msg.role === 'user' ? '你' : 'AI'}</p>
 
             {/* 显示工具调用 */}
             {msg.parts?.map((part, i) => {
               if (isToolCall(part.type)) {
                 const toolPart = part as { type: string; input?: unknown; output?: unknown }
                 return (
-                  <div key={i} className="my-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm">
+                  <div
+                    key={i}
+                    className="my-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm"
+                  >
                     <p className="font-medium text-yellow-800">
                       🔧 工具调用：{part.type.replace('tool-', '')}
                     </p>

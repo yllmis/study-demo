@@ -14,7 +14,7 @@ export function ApiDemo() {
   const callGetApi = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/hello?name=Alice')  // 相对路径，自动指向当前域名
+      const res = await fetch('/api/hello?name=Alice') // 相对路径，自动指向当前域名
       const data = await res.json()
       setResult(JSON.stringify(data, null, 2))
     } catch (err) {
@@ -60,11 +60,7 @@ export function ApiDemo() {
           POST /api/hello
         </button>
       </div>
-      {result && (
-        <pre className="bg-gray-100 p-2 rounded text-sm overflow-auto">
-          {result}
-        </pre>
-      )}
+      {result && <pre className="bg-gray-100 p-2 rounded text-sm overflow-auto">{result}</pre>}
     </div>
   )
 }

@@ -20,14 +20,54 @@ const mimo = createOpenAI({
 
 // 日志数据
 const mockLogs = [
-  { timestamp: '2026-08-17 10:00:01', level: 'info', service: 'order-service', message: '订单创建成功，orderId: 1001' },
-  { timestamp: '2026-08-17 10:00:02', level: 'error', service: 'payment-service', message: '支付错误：余额不足' },
-  { timestamp: '2026-08-17 10:00:03', level: 'warn', service: 'order-service', message: '订单超时未支付，orderId: 1002' },
-  { timestamp: '2026-08-17 10:00:04', level: 'info', service: 'user-service', message: '用户登录成功，userId: 5001' },
-  { timestamp: '2026-08-17 10:00:05', level: 'error', service: 'order-service', message: '数据库连接错误' },
-  { timestamp: '2026-08-17 10:00:06', level: 'info', service: 'payment-service', message: '支付成功，orderId: 1003' },
-  { timestamp: '2026-08-17 10:00:07', level: 'error', service: 'user-service', message: '用户认证错误：token过期' },
-  { timestamp: '2026-08-17 10:00:08', level: 'warn', service: 'payment-service', message: '支付回调超时' },
+  {
+    timestamp: '2026-08-17 10:00:01',
+    level: 'info',
+    service: 'order-service',
+    message: '订单创建成功，orderId: 1001',
+  },
+  {
+    timestamp: '2026-08-17 10:00:02',
+    level: 'error',
+    service: 'payment-service',
+    message: '支付错误：余额不足',
+  },
+  {
+    timestamp: '2026-08-17 10:00:03',
+    level: 'warn',
+    service: 'order-service',
+    message: '订单超时未支付，orderId: 1002',
+  },
+  {
+    timestamp: '2026-08-17 10:00:04',
+    level: 'info',
+    service: 'user-service',
+    message: '用户登录成功，userId: 5001',
+  },
+  {
+    timestamp: '2026-08-17 10:00:05',
+    level: 'error',
+    service: 'order-service',
+    message: '数据库连接错误',
+  },
+  {
+    timestamp: '2026-08-17 10:00:06',
+    level: 'info',
+    service: 'payment-service',
+    message: '支付成功，orderId: 1003',
+  },
+  {
+    timestamp: '2026-08-17 10:00:07',
+    level: 'error',
+    service: 'user-service',
+    message: '用户认证错误：token过期',
+  },
+  {
+    timestamp: '2026-08-17 10:00:08',
+    level: 'warn',
+    service: 'payment-service',
+    message: '支付回调超时',
+  },
 ]
 
 // 服务状态数据
@@ -58,15 +98,11 @@ const searchLogs = tool({
       .enum(['info', 'warn', 'error'])
       .optional()
       .describe('日志级别过滤。查错误日志用 error，查警告用 warn，查信息用 info'),
-    limit: z
-      .number()
-      .optional()
-      .default(5)
-      .describe('返回条数限制，默认 5 条'),
+    limit: z.number().optional().default(5).describe('返回条数限制，默认 5 条'),
   }),
   execute: async ({ keyword, level, limit }) => {
-    let results = mockLogs.filter((log) =>
-      log.message.includes(keyword) || log.service.includes(keyword)
+    let results = mockLogs.filter(
+      (log) => log.message.includes(keyword) || log.service.includes(keyword),
     )
     if (level) {
       results = results.filter((log) => log.level === level)
@@ -84,7 +120,9 @@ const getServiceStatus = tool({
   inputSchema: z.object({
     serviceName: z
       .enum(['order-service', 'payment-service', 'user-service', 'inventory-service'])
-      .describe('服务名称，只支持：order-service、payment-service、user-service、inventory-service'),
+      .describe(
+        '服务名称，只支持：order-service、payment-service、user-service、inventory-service',
+      ),
   }),
   execute: async ({ serviceName }) => {
     const service = mockServices[serviceName]
@@ -105,10 +143,7 @@ const calculateErrorRate = tool({
     timeRange: z
       .enum(['1h', '6h', '24h'])
       .describe('时间范围：1h（最近1小时）、6h（最近6小时）、24h（最近24小时）'),
-    serviceName: z
-      .string()
-      .optional()
-      .describe('可选：指定服务名，不填则统计所有服务'),
+    serviceName: z.string().optional().describe('可选：指定服务名，不填则统计所有服务'),
   }),
   execute: async ({ timeRange, serviceName }) => {
     const data = mockErrorRates[timeRange]

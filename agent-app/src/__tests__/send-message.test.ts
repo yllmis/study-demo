@@ -24,9 +24,12 @@ describe('sendMessage', () => {
     const data = await res.json()
 
     expect(data.reply).toBe('你好！')
-    expect(mockFetch).toHaveBeenCalledWith('/api/chat', expect.objectContaining({
-      method: 'POST',
-    }))
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/chat',
+      expect.objectContaining({
+        method: 'POST',
+      }),
+    )
   })
 
   it('失败时抛出错误', async () => {

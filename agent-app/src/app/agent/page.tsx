@@ -152,9 +152,15 @@ export default function AgentPage() {
         </ul>
         <p className="font-medium mt-3 mb-2">可用工具：</p>
         <ul className="text-sm space-y-1">
-          <li>• <code>search_logs</code> — 搜索日志</li>
-          <li>• <code>get_service_status</code> — 查询服务状态</li>
-          <li>• <code>calculate_error_rate</code> — 计算错误率</li>
+          <li>
+            • <code>search_logs</code> — 搜索日志
+          </li>
+          <li>
+            • <code>get_service_status</code> — 查询服务状态
+          </li>
+          <li>
+            • <code>calculate_error_rate</code> — 计算错误率
+          </li>
         </ul>
       </div>
 
@@ -175,9 +181,7 @@ export default function AgentPage() {
             </label>
           ))}
         </div>
-        <p className="text-xs text-gray-500 mt-2">
-          开启后，下次请求会模拟对应的错误场景
-        </p>
+        <p className="text-xs text-gray-500 mt-2">开启后，下次请求会模拟对应的错误场景</p>
       </div>
 
       {/* 测试用例 */}
@@ -207,9 +211,7 @@ export default function AgentPage() {
               msg.role === 'user' ? 'bg-blue-100 ml-12' : 'bg-gray-100 mr-12'
             }`}
           >
-            <p className="text-xs text-gray-500 mb-1">
-              {msg.role === 'user' ? '你' : 'AI'}
-            </p>
+            <p className="text-xs text-gray-500 mb-1">{msg.role === 'user' ? '你' : 'AI'}</p>
 
             {/* 显示工具调用 */}
             {msg.parts?.map((part, i) => {
@@ -222,15 +224,15 @@ export default function AgentPage() {
                   <div
                     key={i}
                     className={`my-2 p-2 border rounded text-sm ${
-                      hasError
-                        ? 'bg-red-50 border-red-200'
-                        : 'bg-yellow-50 border-yellow-200'
+                      hasError ? 'bg-red-50 border-red-200' : 'bg-yellow-50 border-yellow-200'
                     }`}
                   >
                     <p className={`font-medium ${hasError ? 'text-red-800' : 'text-yellow-800'}`}>
                       {hasError ? '❌' : '🔧'} 工具调用：{part.type.replace('tool-', '')}
                     </p>
-                    <pre className={`mt-1 text-xs ${hasError ? 'text-red-700' : 'text-yellow-700'}`}>
+                    <pre
+                      className={`mt-1 text-xs ${hasError ? 'text-red-700' : 'text-yellow-700'}`}
+                    >
                       参数：{JSON.stringify(toolPart.input, null, 2)}
                     </pre>
                     <pre className={`mt-1 text-xs ${hasError ? 'text-red-700' : 'text-green-700'}`}>
@@ -295,19 +297,27 @@ export default function AgentPage() {
               <p className="text-sm text-gray-500">暂无 Trace 记录</p>
             ) : (
               traces.map((trace) => (
-                <div key={trace.run_id} className="p-4 bg-gray-900 text-green-400 rounded-lg text-xs font-mono">
+                <div
+                  key={trace.run_id}
+                  className="p-4 bg-gray-900 text-green-400 rounded-lg text-xs font-mono"
+                >
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-yellow-400">Run: {trace.run_id}</span>
                     <span className="text-gray-500">{formatTime(trace.start_time)}</span>
                   </div>
                   <div className="text-gray-400 mb-2">
-                    Model: {trace.model_name} | Duration: {trace.total_duration_ms}ms | Token: {trace.token_usage.prompt_tokens}+{trace.token_usage.completion_tokens}
+                    Model: {trace.model_name} | Duration: {trace.total_duration_ms}ms | Token:{' '}
+                    {trace.token_usage.prompt_tokens}+{trace.token_usage.completion_tokens}
                   </div>
 
                   {trace.turns.map((turn) => (
                     <div key={turn.step} className="ml-4 mt-2 p-2 bg-gray-800 rounded">
-                      <div className="text-blue-400">Turn {turn.step} ({turn.duration_ms}ms)</div>
-                      <div className="text-gray-300 mt-1">Input: {turn.input.substring(0, 80)}...</div>
+                      <div className="text-blue-400">
+                        Turn {turn.step} ({turn.duration_ms}ms)
+                      </div>
+                      <div className="text-gray-300 mt-1">
+                        Input: {turn.input.substring(0, 80)}...
+                      </div>
                       <div className="text-gray-300">Output: {turn.output.substring(0, 80)}...</div>
 
                       {turn.tool_calls.length > 0 && (
@@ -318,7 +328,9 @@ export default function AgentPage() {
                               <span className="text-yellow-400">{tc.name}</span>
                               <span className="text-gray-500">({tc.duration_ms}ms)</span>
                               {tc.error && <span className="text-red-400"> ERROR: {tc.error}</span>}
-                              {tc.retries > 0 && <span className="text-orange-400"> retries: {tc.retries}</span>}
+                              {tc.retries > 0 && (
+                                <span className="text-orange-400"> retries: {tc.retries}</span>
+                              )}
                             </div>
                           ))}
                         </div>

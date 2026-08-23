@@ -20,7 +20,7 @@ export async function GET() {
         controller.enqueue(encoder.encode(`data: ${chunk}\n\n`))
 
         // 模拟延迟（像 AI 逐字生成）
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await new Promise((resolve) => setTimeout(resolve, 500))
       }
 
       controller.close()
@@ -29,9 +29,9 @@ export async function GET() {
 
   return new Response(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',    // SSE 格式
+      'Content-Type': 'text/event-stream', // SSE 格式
       'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
+      Connection: 'keep-alive',
     },
   })
 }

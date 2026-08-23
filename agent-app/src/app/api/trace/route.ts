@@ -25,9 +25,6 @@ export async function GET() {
 
     return NextResponse.json({ traces })
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to read traces' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to read traces' }, { status: 500 })
   }
 }

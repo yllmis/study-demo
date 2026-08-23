@@ -26,7 +26,7 @@ export async function UserListServer() {
   // const users = await db.query("SELECT * FROM users")
 
   // 模拟数据库查询
-  await new Promise(resolve => setTimeout(resolve, 100))
+  await new Promise((resolve) => setTimeout(resolve, 100))
   const users = [
     { id: 1, name: 'Alice', role: 'admin' },
     { id: 2, name: 'Bob', role: 'user' },
@@ -39,7 +39,7 @@ export async function UserListServer() {
         This data is fetched on the server. No JS sent to browser.
       </p>
       <ul className="space-y-1">
-        {users.map(user => (
+        {users.map((user) => (
           <li key={user.id}>
             {user.name} ({user.role})
           </li>

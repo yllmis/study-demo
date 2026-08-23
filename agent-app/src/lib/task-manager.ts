@@ -27,68 +27,85 @@
 // 先自己写，写完看下面的测试用例，预测每个测试的输出，
 // 然后运行 npm run test 验证。
 
-
 // --- 从这里开始写 ---
 
 export interface Task {
-    id: number
-    title: string
-    status: "todo" | "in_progress" | "done"
-    priority: "low" | "medium" | "high"
-    createdAt: Date
+  id: number
+  title: string
+  status: 'todo' | 'in_progress' | 'done'
+  priority: 'low' | 'medium' | 'high'
+  createdAt: Date
 }
 
 type TaskFilter = {
-    status?: Task["status"]
-    priority?: Task["priority"]
+  status?: Task['status']
+  priority?: Task['priority']
 }
 
 export function filterTasks(tasks: Task[], filter: TaskFilter): Task[] {
-    if (filter.status) {
-        tasks = tasks.filter(task => task.status === filter.status)
-    }
-    if (filter.priority) {
-        tasks = tasks.filter(task => task.priority === filter.priority)
-    }
-    return tasks
+  if (filter.status) {
+    tasks = tasks.filter((task) => task.status === filter.status)
+  }
+  if (filter.priority) {
+    tasks = tasks.filter((task) => task.priority === filter.priority)
+  }
+  return tasks
 }
 
-export function sortTasks(tasks: Task[], sortBy: "createdAt" | "priority"): Task[] {
-    const sortedTasks = [...tasks]
+export function sortTasks(tasks: Task[], sortBy: 'createdAt' | 'priority'): Task[] {
+  const sortedTasks = [...tasks]
 
-    if (sortBy === "createdAt") {
-        return sortedTasks.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-    }
+  if (sortBy === 'createdAt') {
+    return sortedTasks.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+  }
 
-    const priorityOrder: Record<Task["priority"], number> = {
-        high: 3,
-        medium: 2,
-        low: 1,
-    }
+  const priorityOrder: Record<Task['priority'], number> = {
+    high: 3,
+    medium: 2,
+    low: 1,
+  }
 
-    return sortedTasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority])
+  return sortedTasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority])
 }
 
 export async function fetchTasks(invalid: boolean = false): Promise<Task[]> {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (invalid) {
-                reject(new NotFoundError("Tasks", 0))
-            } else {
-                resolve([
-                    { id: 1, title: "写单元测试", status: "todo", priority: "high", createdAt: new Date("2026-07-28") },
-                    { id: 2, title: "设计数据库", status: "in_progress", priority: "medium", createdAt: new Date("2026-07-27") },
-                    { id: 3, title: "写文档", status: "done", priority: "low", createdAt: new Date("2026-07-29") },
-                ])
-            }
-        }, 1000)
-    })
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (invalid) {
+        reject(new NotFoundError('Tasks', 0))
+      } else {
+        resolve([
+          {
+            id: 1,
+            title: '写单元测试',
+            status: 'todo',
+            priority: 'high',
+            createdAt: new Date('2026-07-28'),
+          },
+          {
+            id: 2,
+            title: '设计数据库',
+            status: 'in_progress',
+            priority: 'medium',
+            createdAt: new Date('2026-07-27'),
+          },
+          {
+            id: 3,
+            title: '写文档',
+            status: 'done',
+            priority: 'low',
+            createdAt: new Date('2026-07-29'),
+          },
+        ])
+      }
+    }, 1000)
+  })
 }
 
 export class NotFoundError extends Error {
-    constructor(resourceName: string, id: number) {
-        super(`${resourceName} not found with ID ${id}`)
-        this.name = "NotFoundError"
-        Object.setPrototypeOf(this, NotFoundError.prototype)
-    }
+  constructor(resourceName: string, id: number) {
+    super(`${resourceName} not found with ID ${id}`)
+    this.name = 'NotFoundError'
+    Object.setPrototypeOf(this, NotFoundError.prototype)
+  }
 }

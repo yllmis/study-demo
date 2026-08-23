@@ -20,15 +20,16 @@ describe('parseTask', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({
-          task: {
-            title: '测试任务',
-            priority: 'high',
-            dueDate: null,
-            assignee: null,
-            status: 'todo',
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            task: {
+              title: '测试任务',
+              priority: 'high',
+              dueDate: null,
+              assignee: null,
+              status: 'todo',
+            },
+          }),
       })
 
     const result = await parseTask('测试任务')

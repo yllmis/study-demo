@@ -12,8 +12,8 @@
 
 interface GreetingProps {
   name: string
-  age?: number          // 可选 props
-  children?: React.ReactNode  // 插槽，类似 Vue 的 slot
+  age?: number // 可选 props
+  children?: React.ReactNode // 插槽，类似 Vue 的 slot
 }
 
 // 最简单的组件 — 接收 props，返回 JSX
